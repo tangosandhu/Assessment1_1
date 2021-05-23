@@ -1,0 +1,109 @@
+<<<<<<< HEAD
+---
+title: "Assessment1.2"
+author: "Tanveer Singh 4631615"
+date: "5/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#2: Data
+
+```{r}
+library(tidyverse)
+library(dplyr)
+#3
+fastfood<-read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
+library(skimr)
+fastfood%>%skim()
+
+```
+
+
+
+```{r}
+
+#4
+fastfood%>%
+  group_by(restaurant)%>%
+  summarise(count=n())
+
+```
+
+```{r}
+#5
+fastfood%>%
+  group_by(restaurant)%>%
+  summarise(average_calories=mean(calories))%>%
+  ungroup()
+```
+
+#6
+
+```{r}
+
+#save this variable as `average_calories`
+
+average_calories<-fastfood%>%
+  group_by(restaurant)%>%
+  mutate(average_calories=mean(calories))%>%
+  select(restaurant,average_calories)%>%
+  ungroup()
+```
+  
+#7
+
+```{r}
+
+#displaying data vis
+
+fastfood%>%ggplot(
+  aes(total_fat)
+)+
+  geom_histogram()+
+  facet_wrap(vars(restaurant))
+  
+```
+
+
+
+
+
+#8
+```{r}
+
+# Displaying the count of observations
+
+library(dplyr)
+fastfood%>%ggplot(aes(restaurant))+geom_bar()
+```
+
+
+#9
+```{r}
+
+#adding a new variable as `max_total_fat`
+
+max_total_fat<-fastfood%>%
+  group_by(restaurant)%>%
+  mutate(max_total_fat=max(total_fat))%>%
+  select(restaurant, max_total_fat)%>%
+  ungroup()
+```
+  
+#10
+
+```{r}
+
+#plotting with geom()
+
+fastfood%>%ggplot(
+  aes(
+    x=sugar,
+    y=protein
+  )
+)+
+  geom_point()
