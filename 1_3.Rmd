@@ -9,6 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+
 #Data viz and wrangling
 
 ```{r}
@@ -16,11 +19,16 @@ library(tidyverse)
 library(skimr)
 ```
 
+
 ```{r}
 fastfood<-read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
 ```
 
+
+
 #Working with different data types
+
+
 
 ```{r}
 skim(fastfood)
@@ -33,10 +41,14 @@ fastfood$restaurant<-as_factor(fastfood$restaurant)
 fastfood$item<-as_factor(fastfood$item)
 fastfood$salad<-as_factor(fastfood$salad)
 skim(fastfood)
+
 ```
+
+
 
 ```{r}
 fastfood <- fastfood %>% replace(is.na(.), 0)
+
 ```
 
 Create two new variables:
@@ -55,6 +67,7 @@ head(fastfood)
 ```
 
 # Adding a facet wrap
+
 ```{r}
 fastfood %>%
   ggplot(aes(
