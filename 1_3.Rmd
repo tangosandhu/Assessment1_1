@@ -1,0 +1,70 @@
+---
+title: "Assessment 1.3"
+author: "Tanveer Singh 4631615"
+date: "5/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Data viz and wrangling
+
+```{r}
+library(tidyverse)
+library(skimr)
+```
+
+```{r}
+fastfood<-read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
+```
+
+#Working with different data types
+
+```{r}
+skim(fastfood)
+```
+
+#coverting variables
+```{r}
+
+fastfood$restaurant<-as_factor(fastfood$restaurant)
+fastfood$item<-as_factor(fastfood$item)
+fastfood$salad<-as_factor(fastfood$salad)
+skim(fastfood)
+```
+
+```{r}
+fastfood <- fastfood %>% replace(is.na(.), 0)
+```
+
+Create two new variables:
+
+Read about `cut_number()` function in order to assist and add a new variable  `calories_type` arguments to add labels `c("low", "med", "high")` and make sure that the dataset is ordered
+
+```{r}
+fastfood <- fastfood %>%
+  mutate(calories_type = cut_number(calories, 3, labels = c("low", "med", "high")))
+```
+
+
+```{r}
+fastfood <- fastfood[order(fastfood$calories_type),]
+head(fastfood)
+```
+
+# Adding a facet wrap
+```{r}
+fastfood %>%
+  ggplot(aes(
+    x = calories_type,
+    fill = calories_type
+  ))+
+  geom_bar(width=0.75)+
+  facet_wrap(~ restaurant)+
+  coord_flip()+
+  theme_minimal()+
+  scale_fill_manual(values=c("#FFEF77","#FFAC25","#F85720"))
+  
+```
